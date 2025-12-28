@@ -19,7 +19,9 @@ const HomepageForm = () => {
     resolver: zodResolver(homeFormSchema),
   });
 
-  const onSubmit: SubmitHandler<HomeInputs> = async (data) => {};
+  const onSubmit: SubmitHandler<HomeInputs> = async (data) => {
+    console.log(data);
+  };
 
   return (
     <section className="flex-1 flex flex-col p-4 items-center justify-center">
