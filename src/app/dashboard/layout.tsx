@@ -14,7 +14,9 @@ export default function RootLayout({
   return (
     <main>
       <Navbar />
-      {children}
+      <section className="w-full max-w-7xl px-7 pt-6 mx-auto">
+        {children}
+      </section>
     </main>
   );
 }
