@@ -1,12 +1,26 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { mockNoteGroups } from "@/lib/constants/noteGroups";
 import { CiStar } from "react-icons/ci";
 import Link from "next/link";
 import AddNewNotebook from "@/components/AddNewNotebook";
+import { getServerSession } from "@/lib/getSession";
+import prisma from "@/lib/prisma";
+import { unauthorized } from "next/navigation";
 
-const Dashboard = () => {
+const Dashboard = async () => {
+  const session = await getServerSession();
+  const user = session?.user;
+
+  if (!user) {
+    return unauthorized();
+  }
+
+  const noteGroups = await prisma.noteGroup.findMany({
+    where: {
+      userId: user.id,
+    },
+  });
   return (
     <main>
       <section className="flex flex-col items-center gap-4 sm:flex-row">
@@ -17,7 +31,7 @@ const Dashboard = () => {
       </section>
 
       <section className="grid grid-cols-1 gap-4 pt-7 sm:grid-cols-2 lg:grid-cols-3">
-        {mockNoteGroups.map((group) => (
+        {noteGroups.map((group) => (
           <Link key={group.id} href={`/${group.id}`}>
             <Card>
               <CardHeader className="flex items-center justify-between">
