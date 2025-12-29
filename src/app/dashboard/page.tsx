@@ -2,9 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { mockNoteGroups } from "@/lib/constants/noteGroups";
-import { IoAddSharp } from "react-icons/io5";
 import { CiStar } from "react-icons/ci";
 import Link from "next/link";
+import AddNewNotebook from "@/components/AddNewNotebook";
 
 const Dashboard = () => {
   return (
@@ -13,12 +13,7 @@ const Dashboard = () => {
         <div className="space-y-3 w-full">
           <Input type="text" placeholder="Search Notebooks..." />
         </div>
-        <div>
-          <Button className="font-medium" variant={"outline"}>
-            <IoAddSharp className="size-5" />
-            New Notebook
-          </Button>
-        </div>
+        <AddNewNotebook />
       </section>
 
       <section className="grid grid-cols-1 gap-4 pt-7 sm:grid-cols-2 lg:grid-cols-3">

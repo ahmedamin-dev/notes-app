@@ -9,6 +9,7 @@ import Link from "next/link";
 import { homeFormSchema, HomeInputs } from "@/lib/validators/homeForm";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { authClient } from "@/lib/auth-client";
 
 const HomepageForm = () => {
   const {
@@ -18,6 +19,17 @@ const HomepageForm = () => {
   } = useForm<HomeInputs>({
     resolver: zodResolver(homeFormSchema),
   });
+
+  const gitHubSignin = async () => {
+    try {
+      await authClient.signIn.social({
+        provider: "github",
+        callbackURL: "/dashboard",
+      });
+    } catch (error) {
+      console.error("Error loggin in with github", error);
+    }
+  };
 
   const onSubmit: SubmitHandler<HomeInputs> = async (data) => {
     console.log(data);
@@ -69,7 +81,11 @@ const HomepageForm = () => {
         <Separator />
 
         <div className="flex flex-col items-center gap-2 sm:flex-row">
-          <Button variant={"outline"} className="flex items-center">
+          <Button
+            variant={"outline"}
+            onClick={gitHubSignin}
+            className="flex items-center"
+          >
             <FaGithub className="size-5" /> Continue with GitHub
           </Button>
           <Button variant={"outline"} className="flex items-center">
