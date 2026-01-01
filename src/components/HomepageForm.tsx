@@ -36,7 +36,7 @@ const HomepageForm = () => {
   };
 
   return (
-    <section className="flex-1 flex flex-col p-4 items-center justify-center">
+    <section className="flex-1 flex flex-col p-4 items-center gap-4 justify-center">
       <h2 className="text-2xl font-bold text-center">Login to your account</h2>
       <p className="text-muted-foreground text-center mt-2">
         Enter your email below to login to your account
@@ -79,30 +79,29 @@ const HomepageForm = () => {
         <Button>Login</Button>
 
         <Separator />
-
-        <div className="flex flex-col items-center gap-2 sm:flex-row">
-          <Button
-            variant={"outline"}
-            onClick={gitHubSignin}
-            className="flex items-center"
-          >
-            <FaGithub className="size-5" /> Continue with GitHub
-          </Button>
-          <Button variant={"outline"} className="flex items-center">
-            <FcGoogle className="size-5" />
-            Continue with Google
-          </Button>
-        </div>
-        <p className="text-muted-foreground text-center">
-          Don&apos;t have an account?{" "}
-          <Link
-            href={"/sign-up"}
-            className="underline hover:text-primary transition-colors"
-          >
-            Sign up
-          </Link>
-        </p>
       </form>
+      <div className="flex flex-col items-center gap-2 sm:flex-row">
+        <Button
+          variant={"outline"}
+          onClick={gitHubSignin}
+          className="flex items-center"
+        >
+          <FaGithub className="size-5" /> Continue with GitHub
+        </Button>
+        <Button variant={"outline"} className="flex items-center">
+          <FcGoogle className="size-5" />
+          Continue with Google
+        </Button>
+      </div>
+      <p className="text-muted-foreground text-center">
+        Don&apos;t have an account?{" "}
+        <Link
+          href={"/sign-up"}
+          className="underline hover:text-primary transition-colors"
+        >
+          Sign up
+        </Link>
+      </p>
     </section>
   );
 };
