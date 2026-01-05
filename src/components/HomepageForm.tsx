@@ -10,12 +10,16 @@ import { homeFormSchema, HomeInputs } from "@/lib/validators/homeForm";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const HomepageForm = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+    reset,
   } = useForm<HomeInputs>({
     resolver: zodResolver(homeFormSchema),
   });
@@ -32,7 +36,19 @@ const HomepageForm = () => {
   };
 
   const onSubmit: SubmitHandler<HomeInputs> = async (data) => {
-    console.log(data);
+    const res = await authClient.signIn.email({
+      email: data.email,
+      password: data.password,
+    });
+
+    if (res.error) {
+      console.error("Error signing in", res.error);
+      toast.error("Failed to sign in");
+      throw new Error("Invalid credentials");
+    } else {
+      toast.success("Signed in successfully");
+      router.push("/dashboard");
+    }
   };
 
   return (
@@ -51,6 +67,7 @@ const HomepageForm = () => {
           </label>
           <Input
             type="email"
+            disabled={isSubmitting || isSubmitSuccessful}
             id="email"
             {...register("email")}
             placeholder="email@example.com"
@@ -67,6 +84,7 @@ const HomepageForm = () => {
           </label>
           <Input
             type="password"
+            disabled={isSubmitting || isSubmitSuccessful}
             id="password"
             {...register("password")}
             aria-invalid={errors.password && true}
@@ -76,19 +94,24 @@ const HomepageForm = () => {
           )}
         </div>
 
-        <Button>Login</Button>
+        <Button disabled={isSubmitting || isSubmitSuccessful}>Login</Button>
 
         <Separator />
       </form>
       <div className="flex flex-col items-center gap-2 sm:flex-row">
         <Button
+          disabled={isSubmitting || isSubmitSuccessful}
           variant={"outline"}
           onClick={gitHubSignin}
           className="flex items-center"
         >
           <FaGithub className="size-5" /> Continue with GitHub
         </Button>
-        <Button variant={"outline"} className="flex items-center">
+        <Button
+          disabled={isSubmitting || isSubmitSuccessful}
+          variant={"outline"}
+          className="flex items-center"
+        >
           <FcGoogle className="size-5" />
           Continue with Google
         </Button>
