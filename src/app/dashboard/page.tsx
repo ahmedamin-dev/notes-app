@@ -32,7 +32,7 @@ const Dashboard = async () => {
 
       <section className="grid grid-cols-1 gap-4 pt-7 sm:grid-cols-2 lg:grid-cols-3">
         {noteGroups.map((group) => (
-          <Link key={group.id} href={`/${group.id}`}>
+          <Link key={group.id} href={`/dashboard/${group.id}`}>
             <Card>
               <CardHeader className="flex items-center justify-between">
                 <CardTitle>{group.title}</CardTitle>
